@@ -1,6 +1,7 @@
 import {ChangeEvent, Dispatch, Fragment } from "react";
 import {Checkbox, Label, Tooltip} from "flowbite-react";
 import type {Race, Races, Stat} from "@/types/races";
+import isSelected from "@/utils";
 
 export function Icons (
     { data, dataType, color, displayNames, setChange } : { data : Race[], dataType: string, color: string, displayNames: boolean, setChange: (e: ChangeEvent<HTMLInputElement>, k: number, data: Race[]) => void }) {
@@ -56,12 +57,6 @@ export default function Races({races, editRaces, displayNames}: {
     displayNames: boolean
 }) {
 
-    const isSelected = (type: keyof Races): boolean => {
-        const copiedVal = JSON.parse(JSON.stringify(Object.values(races[type])))
-
-        return races ? copiedVal.filter((c: Race) => c.selected).length === races[type].length : false
-    }
-
     const toggle = (e: ChangeEvent<HTMLInputElement>, type?: string) => {
         let toggledClasses: [string, Race[]][] = JSON.parse(JSON.stringify(Object.entries(races)))
 
@@ -85,17 +80,17 @@ export default function Races({races, editRaces, displayNames}: {
             <span className="font-semibold text-gray-900 dark:text-white ">Race Selector</span>
             <div className="flex flex-wrap gap-3">
                 <Checkbox id="all_races"
-                          checked={isSelected("free") && isSelected("premium") && isSelected("iconic")}
+                          checked={isSelected<Race>(races['free']) && isSelected<Race>(races['premium']) && isSelected<Race>(races['iconic'])}
                           onChange={e => toggle(e)}/>
                 <Label htmlFor="all_races">Select all</Label>
 
-                <Checkbox id="free_race" checked={isSelected("free")} onChange={e => toggle(e, 'free')}/>
+                <Checkbox id="free_race" checked={isSelected<Race>(races['free'])} onChange={e => toggle(e, 'free')}/>
                 <Label htmlFor="free_race">Select all free races</Label>
 
-                <Checkbox id="premium_race" checked={isSelected("premium")} onChange={e => toggle(e, 'premium')}/>
+                <Checkbox id="premium_race" checked={isSelected<Race>(races['premium'])} onChange={e => toggle(e, 'premium')}/>
                 <Label htmlFor="premium_race">Select all premium races</Label>
 
-                <Checkbox id="iconic_race" checked={isSelected("iconic")} onChange={e => toggle(e, 'iconic')}/>
+                <Checkbox id="iconic_race" checked={isSelected<Race>(races['iconic'])} onChange={e => toggle(e, 'iconic')}/>
                 <Label htmlFor="iconic_race">Select all iconic races</Label>
             </div>
 

@@ -1,7 +1,7 @@
 import {ChangeEvent, Dispatch, Fragment, useMemo} from "react";
 import {Checkbox, Label, Tooltip} from "flowbite-react";
 import type {Class, Classes} from "@/types/classes";
-import type {Race} from "@/types/races";
+import isSelected from "@/utils";
 
 export function Icons (
     { data, dataType, color, displayNames, setChange } : { data : Class[], dataType: string, color: string, displayNames: boolean, setChange: (e: ChangeEvent<HTMLInputElement>, k: number, data: Class[]) => void }) {
@@ -51,12 +51,6 @@ export default function Classes({classes, editClasses, displayNames}: {
     editClasses: Dispatch<Classes>,
     displayNames: boolean
 }) {
-    const isSelected = (type: keyof Classes): boolean => {
-        const copiedVal = JSON.parse(JSON.stringify(Object.values(classes[type])))
-
-        return classes ? copiedVal.filter((c: Class) => c.selected).length === classes[type].length : false
-    }
-
     const toggle = (e: ChangeEvent<HTMLInputElement>, type?: string) => {
         let toggledClasses: [string, Class[]][] = Object.entries(classes)
 
@@ -80,17 +74,17 @@ export default function Classes({classes, editClasses, displayNames}: {
             <span className="font-semibold text-gray-900 dark:text-white ">Class Selector</span>
             <div className="flex flex-wrap gap-3">
                 <Checkbox id="all_class"
-                          checked={isSelected('free') && isSelected('premium') && isSelected('archetype')}
+                          checked={isSelected<Class>(classes['free']) && isSelected<Class>(classes['premium']) && isSelected<Class>(classes['archetype'])}
                           onChange={e => toggle(e)}/>
                 <Label htmlFor="all_class">Select all</Label>
 
-                <Checkbox id="free_class" checked={isSelected('free')} onChange={e => toggle(e, 'free')}/>
+                <Checkbox id="free_class" checked={isSelected<Class>(classes['free'])} onChange={e => toggle(e, 'free')}/>
                 <Label htmlFor="free_class">Select all free classes</Label>
 
-                <Checkbox id="premium_class" checked={isSelected('premium')} onChange={e => toggle(e, 'premium')}/>
+                <Checkbox id="premium_class" checked={isSelected<Class>(classes['premium'])} onChange={e => toggle(e, 'premium')}/>
                 <Label htmlFor="premium_class">Select all premium classes</Label>
 
-                <Checkbox id="archetype_class" checked={isSelected('archetype')} onChange={e => toggle(e, 'archetype')}/>
+                <Checkbox id="archetype_class" checked={isSelected<Class>(classes['archetype'])} onChange={e => toggle(e, 'archetype')}/>
                 <Label htmlFor="archetype_class">Select all archetype classes</Label>
             </div>
 
