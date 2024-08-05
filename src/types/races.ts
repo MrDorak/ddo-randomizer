@@ -6,8 +6,8 @@ export type Stat = {
 export type Race = {
     alias: string;
     name: string;
-    selected: boolean | string;
-    statsMod?: { increasedStats: Array<Stat>, loweredStats?: Array<Stat> };
+    selected: boolean;
+    statsMod?: { increasedStats: Stat[], loweredStats?: Stat[] };
     forcedClass?: string
     forcedClassName?: string
     isIconic: boolean
