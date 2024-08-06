@@ -4,7 +4,7 @@ import type {Race, Races, Stat} from "@/types/races";
 import isSelected from "@/utils";
 
 export function Icons (
-    { data, dataType, color, displayNames, setChange } : { data : Race[], dataType: string, color: string, displayNames: boolean, setChange: (e: ChangeEvent<HTMLInputElement>, k: number, data: Race[]) => void }) {
+    { data, dataType, color, displayNames, setChange } : { data : Race[], dataType: string, color: string, displayNames: boolean, setChange: (e: ChangeEvent<HTMLInputElement>, type?: string, k?: number) => void }) {
     return (
         <div className={`flex flex-col gap-2 p-2 grow ${color} ${dataType === 'free' ? 'rounded-l-lg' : dataType === 'iconic' ? 'rounded-r-lg' : ''}`}>
             <span className="text-center text-slate-900">{dataType.charAt(0).toUpperCase() + dataType.slice(1)}</span>
@@ -34,8 +34,9 @@ export function Icons (
                              : null}
                         </div>
                     )}>
+                        {type.selected.toString()}
                         <input className="hidden" checked={type.selected} type="checkbox"
-                               id={`${dataType}_race_${type.alias}`} onChange={e => setChange(e, k, data)}
+                               id={`${dataType}_race_${type.alias}`} onChange={e => setChange(e, dataType, k)}
                         />
                         <label htmlFor={`${dataType}_race_${type.alias}`} className="flex flex-col items-center">
                             <img src={`/images/races/${dataType}/${type.alias}_race_icon.png`}
@@ -57,47 +58,53 @@ export default function Races({races, editRaces, displayNames}: {
     displayNames: boolean
 }) {
 
-    const toggle = (e: ChangeEvent<HTMLInputElement>, type?: string) => {
+    const toggle = (e: ChangeEvent<HTMLInputElement>, type?: string, k?: number) => {
         let toggledClasses: [string, Race[]][] = JSON.parse(JSON.stringify(Object.entries(races)))
 
         toggledClasses.forEach(( [idx, val] : [idx: string, val: Race[]] ) : void => {
             if (type && type !== idx) return;
 
-            return val.forEach((c: Race) => c.selected = e.target.checked)
+            return val.forEach((c: Race, raceIdx: number) => {
+                if (k !== undefined && k !== raceIdx) return;
+
+                c.selected = e.target.checked
+            })
         })
 
         editRaces(Object.fromEntries(toggledClasses) as Races)
-    }
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>, k: number, data: Race[]) => {
-        data[k].selected = e.target.checked
-
-        editRaces({...races, ...data});
     }
 
     return (
         <div className="flex flex-col justify-center gap-2">
             <span className="font-semibold text-gray-900 dark:text-white ">Race Selector</span>
             <div className="flex flex-wrap gap-3">
-                <Checkbox id="all_races"
-                          checked={isSelected<Race>(races['free']) && isSelected<Race>(races['premium']) && isSelected<Race>(races['iconic'])}
-                          onChange={e => toggle(e)}/>
-                <Label htmlFor="all_races">Select all</Label>
+                <div className="flex items-center gap-2">
+                    <Checkbox id="all_races"
+                              checked={isSelected<Race>(races['free']) && isSelected<Race>(races['premium']) && isSelected<Race>(races['iconic'])}
+                              onChange={e => toggle(e)}/>
+                    <Label htmlFor="all_races">Select all</Label>
+                </div>
 
-                <Checkbox id="free_race" checked={isSelected<Race>(races['free'])} onChange={e => toggle(e, 'free')}/>
-                <Label htmlFor="free_race">Select all free races</Label>
+                <div className="flex items-center gap-2">
+                    <Checkbox id="free_race" checked={isSelected<Race>(races['free'])} onChange={e => toggle(e, 'free')}/>
+                    <Label htmlFor="free_race">Select all free races</Label>
+                </div>
 
-                <Checkbox id="premium_race" checked={isSelected<Race>(races['premium'])} onChange={e => toggle(e, 'premium')}/>
-                <Label htmlFor="premium_race">Select all premium races</Label>
+                <div className="flex items-center gap-2">
+                    <Checkbox id="premium_race" checked={isSelected<Race>(races['premium'])} onChange={e => toggle(e, 'premium')}/>
+                    <Label htmlFor="premium_race">Select all premium races</Label>
+                </div>
 
-                <Checkbox id="iconic_race" checked={isSelected<Race>(races['iconic'])} onChange={e => toggle(e, 'iconic')}/>
-                <Label htmlFor="iconic_race">Select all iconic races</Label>
+                <div className="flex items-center gap-2">
+                    <Checkbox id="iconic_race" checked={isSelected<Race>(races['iconic'])} onChange={e => toggle(e, 'iconic')}/>
+                    <Label htmlFor="iconic_race">Select all iconic races</Label>
+                </div>
             </div>
 
             <div className="flex">
-                { races.free.length ? <Icons data={races.free} dataType="free" displayNames={displayNames} setChange={handleChange} color="bg-blue-500"></Icons> : null }
-                { races.premium.length ? <Icons data={races.premium} dataType="premium" displayNames={displayNames} setChange={handleChange} color="bg-red-700"></Icons> : null }
-                { races.iconic.length ? <Icons data={races.iconic} dataType="iconic" displayNames={displayNames} setChange={handleChange} color="bg-yellow-500"></Icons> : null }
+                { races.free.length ? <Icons data={races.free} dataType="free" displayNames={displayNames} setChange={toggle} color="bg-blue-500"></Icons> : null }
+                { races.premium.length ? <Icons data={races.premium} dataType="premium" displayNames={displayNames} setChange={toggle} color="bg-red-700"></Icons> : null }
+                { races.iconic.length ? <Icons data={races.iconic} dataType="iconic" displayNames={displayNames} setChange={toggle} color="bg-yellow-500"></Icons> : null }
             </div>
         </div>
     );
