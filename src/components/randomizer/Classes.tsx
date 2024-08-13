@@ -1,8 +1,7 @@
-import {ChangeEvent, Dispatch, Fragment, useMemo} from "react";
+import {ChangeEvent, Dispatch, Fragment} from "react";
 import {Checkbox, Label, Tooltip} from "flowbite-react";
 import type {Class, Classes} from "@/types/classes";
-import isSelected from "@/utils";
-import type {Race} from "@/types/races";
+import {isSelected} from "@/utils";
 
 export function Icons (
     { data, dataType, color, displayNames, setChange } : { data : Class[], dataType: string, color: string, displayNames: boolean, setChange: (e: ChangeEvent<HTMLInputElement>, type?: string, k?: number) => void }) {
@@ -66,12 +65,6 @@ export default function Classes({classes, editClasses, displayNames}: {
         })
 
         editClasses(Object.fromEntries(toggledClasses) as Classes)
-    }
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>, k: number, data: Class[]) => {
-        data[k].selected = e.target.checked
-
-        editClasses({...classes, ...data});
     }
 
     return (

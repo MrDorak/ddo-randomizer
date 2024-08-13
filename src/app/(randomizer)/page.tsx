@@ -4,21 +4,25 @@ import UpdateNotes from '@/components/randomizer/UpdateNotes'
 import Options from '@/components/randomizer/Options'
 import Classes from '@/components/randomizer/Classes'
 import Races from '@/components/randomizer/Races'
+import Alignments from '@/components/randomizer/Alignments'
 import {useEffect, useState} from "react";
-import type { Classes as ClassesType } from "@/types/classes"
 import type { Races as RacesType } from "@/types/races"
+import type { Classes as ClassesType } from "@/types/classes"
+import type { Alignment as AlignmentType } from "@/types/alignments"
 import Loading from "@/app/(randomizer)/loading";
 
 export default function Randomizer() {
     const [displayNames, setDisplayNames] = useState<boolean>(false)
-    const [classes, setClasses] = useState<null|ClassesType>(null)
     const [races, setRaces] = useState<null|RacesType>(null)
+    const [classes, setClasses] = useState<null|ClassesType>(null)
+    const [alignments, setAlignments] = useState<null|Array<AlignmentType>>(null)
 
     useEffect(() => {
         setDisplayNames(!localStorage.getItem("displayNames") || localStorage.getItem("displayNames") === "true")
 
-        fetch(`/api/classes`, { cache: 'no-store' }).then(r => r.json()).then(r => setClasses(r))
         fetch(`/api/races`, { cache: 'no-store' }).then(r => r.json()).then(r => setRaces(r))
+        fetch(`/api/classes`, { cache: 'no-store' }).then(r => r.json()).then(r => setClasses(r))
+        fetch(`/api/alignments`, { cache: 'no-store' }).then(r => r.json()).then(r => setAlignments(r))
     }, []);
 
     return (
@@ -35,6 +39,8 @@ export default function Randomizer() {
                 {races ? <Races races={races} editRaces={setRaces} displayNames={displayNames}/> : <Loading name="races" />}
 
                 {classes ? <Classes classes={classes} editClasses={setClasses} displayNames={displayNames}/> : <Loading name="classes" />}
+
+                {alignments ? <Alignments alignments={alignments} editAlignments={setAlignments} /> : <Loading name="alignments" />}
             </div>
         </div>
     );

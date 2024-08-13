@@ -1,7 +1,7 @@
 import {ChangeEvent, Dispatch, Fragment } from "react";
 import {Checkbox, Label, Tooltip} from "flowbite-react";
 import type {Race, Races, Stat} from "@/types/races";
-import isSelected from "@/utils";
+import {isSelected} from "@/utils";
 
 export function Icons (
     { data, dataType, color, displayNames, setChange } : { data : Race[], dataType: string, color: string, displayNames: boolean, setChange: (e: ChangeEvent<HTMLInputElement>, type?: string, k?: number) => void }) {
@@ -34,7 +34,6 @@ export function Icons (
                              : null}
                         </div>
                     )}>
-                        {type.selected.toString()}
                         <input className="hidden" checked={type.selected} type="checkbox"
                                id={`${dataType}_race_${type.alias}`} onChange={e => setChange(e, dataType, k)}
                         />
@@ -58,13 +57,13 @@ export default function Races({races, editRaces, displayNames}: {
     displayNames: boolean
 }) {
 
-    const toggle = (e: ChangeEvent<HTMLInputElement>, type?: string, k?: number) => {
+    const toggle = (e: ChangeEvent<HTMLInputElement>, type?: string, k?: number): void => {
         let toggledClasses: [string, Race[]][] = JSON.parse(JSON.stringify(Object.entries(races)))
 
-        toggledClasses.forEach(( [idx, val] : [idx: string, val: Race[]] ) : void => {
+        toggledClasses.forEach(( [idx, val] : [idx: string, val: Race[]] ): void => {
             if (type && type !== idx) return;
 
-            return val.forEach((c: Race, raceIdx: number) => {
+            return val.forEach((c: Race, raceIdx: number) : void => {
                 if (k !== undefined && k !== raceIdx) return;
 
                 c.selected = e.target.checked

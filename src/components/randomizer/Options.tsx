@@ -9,7 +9,7 @@ export default function Options({ displayNames, editDisplay } : {displayNames: b
     return (
         <div className="flex flex-col gap-2">
             <h3 className="font-semibold text-gray-900 dark:text-white">Options</h3>
-            <ul className="items-center w-full text-sm font-medium text-gray-900 bg-gray-100 border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <ul className="items-center w-full text-sm font-medium text-gray-900 bg-gray-300 border rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                     <div className="flex items-center pl-3">
                         <input id="display-names-checkbox-list" type="checkbox" checked={displayNames}
