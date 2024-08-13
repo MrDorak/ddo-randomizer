@@ -1,3 +1,5 @@
 export type Stat = {
-    name: string, selected: number
+    name: string,
+    alias: string,
+    selected: boolean
 }

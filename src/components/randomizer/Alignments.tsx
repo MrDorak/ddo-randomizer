@@ -8,8 +8,8 @@ export function Options ({ data, setChange } : { data : Alignment[], setChange: 
         <div className="flex flex-wrap justify-center gap-3 p-2 grow rounded-lg text-gray-900 bg-gray-300 dark:bg-gray-700 dark:text-white">
             {data.map((option: Alignment, k: number) => (
                 <div key={k} className="flex items-center pl-3">
-                    <input className="w-4 h-4 rounded bg-gray-300 dark:bg-gray-600 text-orange-500 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:border-gray-500"
-                           checked={option.selected} type="checkbox"
+                    <Checkbox className="w-4 h-4 rounded bg-gray-300 dark:bg-gray-600 text-orange-500 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:border-gray-500"
+                           checked={option.selected}
                            id={`alignment_${option.alias}`}
                            onChange={(e : ChangeEvent<HTMLInputElement>) => setChange(e, option.category, k)}
                     />
@@ -41,7 +41,7 @@ export default function Alignments({alignments, editAlignments}: {
 
     return (
         <div className="flex flex-col justify-center gap-2">
-            <span className="font-semibold text-gray-900 dark:text-white">Alignement Selector</span>
+            <span className="text-teal-500 dark:text-cyan-300">Alignement Selector</span>
             <div className="flex flex-wrap gap-3">
                 <div className="flex items-center gap-2">
                     <Checkbox id="all_alignment"

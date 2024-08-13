@@ -31,14 +31,14 @@ export function Icons (
                             </span>
                         </div>
                     )}>
-                        <input className="hidden" checked={type.selected} type="checkbox"
-                               id={`${dataType}_class_${type.alias}`} onChange={e => setChange(e, dataType, k)}
+                        <Checkbox className="hidden" checked={type.selected} id={`${dataType}_class_${type.alias}`}
+                                  onChange={e => setChange(e, dataType, k)}
                         />
-                        <label htmlFor={`${dataType}_class_${type.alias}`} className="flex flex-col items-center">
+                        <Label htmlFor={`${dataType}_class_${type.alias}`} className="flex flex-col items-center">
                             <img src={`/images/classes/${dataType}/${type.alias}_class_icon.png`} alt={type.name}
-                                 title={type.name}/>
+                                 title={type.name} />
                             {displayNames ? <small>{type.name}</small> : null}
-                        </label>
+                        </Label>
                     </Tooltip>
                 ))}
             </div>
@@ -69,7 +69,7 @@ export default function Classes({classes, editClasses, displayNames}: {
 
     return (
         <div className="flex flex-col justify-center gap-2">
-            <span className="font-semibold text-gray-900 dark:text-white ">Class Selector</span>
+            <span className="text-teal-500 dark:text-cyan-300">Class Selector</span>
             <div className="flex flex-wrap gap-3">
                 <div className="flex items-center gap-2">
                     <Checkbox id="all_class"

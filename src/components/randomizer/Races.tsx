@@ -34,16 +34,16 @@ export function Icons (
                              : null}
                         </div>
                     )}>
-                        <input className="hidden" checked={type.selected} type="checkbox"
-                               id={`${dataType}_race_${type.alias}`} onChange={e => setChange(e, dataType, k)}
+                        <Checkbox className="hidden" checked={type.selected} id={`${dataType}_race_${type.alias}`}
+                                  onChange={e => setChange(e, dataType, k)}
                         />
-                        <label htmlFor={`${dataType}_race_${type.alias}`} className="flex flex-col items-center">
+                        <Label htmlFor={`${dataType}_race_${type.alias}`} className="flex flex-col items-center">
                             <img src={`/images/races/${dataType}/${type.alias}_race_icon.png`}
                                  alt={type.name}
                                  title={type.name}
                             />
                             {displayNames ? <small>{type.name}</small> : null}
-                        </label>
+                        </Label>
                     </Tooltip>
                 ))}
             </div>
@@ -75,7 +75,7 @@ export default function Races({races, editRaces, displayNames}: {
 
     return (
         <div className="flex flex-col justify-center gap-2">
-            <span className="font-semibold text-gray-900 dark:text-white ">Race Selector</span>
+            <span className="text-teal-500 dark:text-cyan-300">Race Selector</span>
             <div className="flex flex-wrap gap-3">
                 <div className="flex items-center gap-2">
                     <Checkbox id="all_races"
