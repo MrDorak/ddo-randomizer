@@ -8,7 +8,7 @@ export function Icons({ data, dataType, color, displayNames, setChange } : { dat
         <div className={`flex flex-col gap-2 p-2 grow ${color} ${dataType === 'free' ? 'rounded-l-lg' : dataType === 'iconic' ? 'rounded-r-lg' : ''}`}>
             <span className="text-center text-slate-900">{dataType.charAt(0).toUpperCase() + dataType.slice(1)}</span>
             <div className="flex flex-wrap justify-center gap-2">
-                { data.map((type, k) =>
+                { data.map((type: Race, k: number) =>
                     <Tooltip key={k} content={
                         <div className="flex flex-col">
                             <span>Name: <span className="text-blue-500">{type.name}</span></span>

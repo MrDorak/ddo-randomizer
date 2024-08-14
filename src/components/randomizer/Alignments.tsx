@@ -3,20 +3,18 @@ import {Checkbox, Label} from "flowbite-react";
 import type {Alignment} from "@/types/alignments";
 import {isSelected, filterCategory} from "@/utils";
 
-export function Options ({ data, setChange } : { data : Alignment[], setChange: (e: ChangeEvent<HTMLInputElement>, category?: string, k?: number) => void }) {
+export function Options({ data, setChange } : { data : Alignment[], setChange: (e: ChangeEvent<HTMLInputElement>, category?: string, k?: number) => void }) {
     return (
-        <div className="flex flex-wrap justify-center gap-3 p-2 grow rounded-lg text-gray-900 bg-gray-300 dark:bg-gray-700 dark:text-white">
+        <div className="flex flex-wrap justify-center gap-3 p-3 grow rounded-lg text-gray-900 bg-gray-300 dark:bg-gray-700 dark:text-white">
             { data.map((option: Alignment, k: number) =>
-                <div key={k} className="flex items-center pl-3">
+                <Label key={k} htmlFor={`alignment_${option.alias}`} className="flex items-center gap-2">
                     <Checkbox className="w-4 h-4 rounded bg-gray-300 dark:bg-gray-600 text-orange-500 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:border-gray-500"
-                           checked={option.selected}
-                           id={`alignment_${option.alias}`}
-                           onChange={(e : ChangeEvent<HTMLInputElement>) => setChange(e, option.category, k)}
+                              checked={option.selected}
+                              id={`alignment_${option.alias}`}
+                              onChange={(e : ChangeEvent<HTMLInputElement>) => setChange(e, option.category, k)}
                     />
-                    <label htmlFor={`alignment_${option.alias}`} className="w-full ml-2 text-sm font-medium">
-                        {option.name}
-                    </label>
-                </div>
+                    {option.name}
+                </Label>
             ) }
         </div>
     );

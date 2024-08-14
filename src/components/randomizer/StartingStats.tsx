@@ -5,7 +5,7 @@ import {HiInformationCircle} from "react-icons/hi";
 
 export function Options({ data, setChange } : { data : Stat[], setChange: (e: ChangeEvent<HTMLInputElement>) => void }) {
     return (
-        <div className="flex flex-wrap justify-center gap-3 p-2 grow rounded-lg text-gray-900 bg-gray-300 dark:bg-gray-700 dark:text-white">
+        <div className="flex flex-wrap justify-center gap-3 p-3 grow rounded-lg text-gray-900 bg-gray-300 dark:bg-gray-700 dark:text-white">
             { data.map((option: Stat, k: number) =>
                 <Label key={k} htmlFor={`stat_${option.alias}`} className="flex items-center gap-2">
                     <Radio id={`stat_${option.alias}`} name="stats" value={option.name} checked={option.selected}

@@ -1,36 +1,59 @@
-"use client"
+import {ChangeEvent, Dispatch} from "react";
+import {Checkbox, Label} from "flowbite-react";
+import type {DestinyTree} from "@/types/destiny_trees";
+import {isSelected} from "@/utils";
 
-import { useEffect, useState } from "react";
+export function Options({ data, setChange } : { data : DestinyTree[], setChange: (e: ChangeEvent<HTMLInputElement>, k?: number) => void }) {
+    return (
+        <div className="flex flex-wrap justify-center gap-3 p-3 grow rounded-lg text-gray-900 bg-gray-300 dark:bg-gray-700 dark:text-white">
+            { data.map((option: DestinyTree, k: number) =>
+                !option.core ?
+                    <Label key={k} htmlFor={`universal_tree_${option.alias}`} className="flex items-center gap-2">
+                        <Checkbox
+                            className="w-4 h-4 rounded bg-gray-300 dark:bg-gray-600 text-orange-500 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:border-gray-500"
+                            checked={option.isBought}
+                            id={`universal_tree_${option.alias}`}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => setChange(e, k)}
+                        />
+                        {option.name}
+                    </Label> : null
+            )}
+        </div>
+    );
+}
 
-export default function Options() {
-    const [displayNames, setDisplayNames] = useState<boolean>(false)
-    
-    const onChangeDisplayNames = () => {
-        localStorage.setItem("displayNames", (!displayNames).toString())
-        setDisplayNames(!displayNames)
+export default function DestinyTrees({destinyTrees, editDestinyTrees}: {
+    destinyTrees: Array<DestinyTree>,
+    editDestinyTrees: Dispatch<Array<DestinyTree>>
+}) {
+
+    const toggle = (e: ChangeEvent<HTMLInputElement>, k?: number) => {
+        let toggledDestinyTrees: Array<DestinyTree> = JSON.parse(JSON.stringify(destinyTrees))
+
+        toggledDestinyTrees.forEach((destiny_tree: DestinyTree, key): void => {
+            if (k !== undefined && k !== key) return;
+
+            destiny_tree.isBought = e.target.checked
+        })
+
+        editDestinyTrees(toggledDestinyTrees as Array<DestinyTree>)
     }
 
-    useEffect(() => {
-        setDisplayNames(!localStorage.getItem("displayNames") || localStorage.getItem("displayNames") === "true");
-    }, []);
-
     return (
-        <>
-            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">Options</h3>
-            <ul className="items-center w-full text-sm font-medium text-gray-900 bg-gray-100 border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+        <div className="flex flex-col justify-center gap-2">
+            <span className="text-teal-500 dark:text-cyan-300">Destiny Trees Unlocked</span>
+            {/*<div className="flex flex-wrap gap-3">
+                <div className="flex items-center gap-2">
+                    <Checkbox id="all_destiny_trees"
+                              checked={isSelected<DestinyTree>(destinyTrees.filter(dt => !dt.core))}
+                              onChange={e => toggle(e)}/>
+                    <Label htmlFor="all_destiny_trees">Select all</Label>
+                </div>
+            </div>*/}
 
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                    <div className="flex items-center pl-3">
-                        <input id="display-names-checkbox-list" type="checkbox" checked={displayNames}
-                               onChange={onChangeDisplayNames}
-                               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"/>
-                        <label htmlFor="display-names-checkbox-list"
-                               className="w-full p-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                            Display names for classes and races
-                        </label>
-                    </div>
-                </li>
-            </ul>
-        </>
+            <div className="flex">
+                <Options data={destinyTrees} setChange={toggle} />
+            </div>
+        </div>
     );
 }
