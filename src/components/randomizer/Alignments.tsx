@@ -6,7 +6,7 @@ import {isSelected, filterCategory} from "@/utils";
 export function Options ({ data, setChange } : { data : Alignment[], setChange: (e: ChangeEvent<HTMLInputElement>, category?: string, k?: number) => void }) {
     return (
         <div className="flex flex-wrap justify-center gap-3 p-2 grow rounded-lg text-gray-900 bg-gray-300 dark:bg-gray-700 dark:text-white">
-            {data.map((option: Alignment, k: number) => (
+            { data.map((option: Alignment, k: number) =>
                 <div key={k} className="flex items-center pl-3">
                     <Checkbox className="w-4 h-4 rounded bg-gray-300 dark:bg-gray-600 text-orange-500 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:border-gray-500"
                            checked={option.selected}
@@ -17,7 +17,7 @@ export function Options ({ data, setChange } : { data : Alignment[], setChange: 
                         {option.name}
                     </label>
                 </div>
-            ))}
+            ) }
         </div>
     );
 }
@@ -67,7 +67,7 @@ export default function Alignments({alignments, editAlignments}: {
             </div>
 
             <div className="flex">
-                <Options data={alignments} setChange={toggle}></Options>
+                <Options data={alignments} setChange={toggle} />
             </div>
         </div>
     );

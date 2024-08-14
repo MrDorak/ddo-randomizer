@@ -9,8 +9,8 @@ export function Icons (
         <div className={`flex flex-col gap-2 p-2 grow ${color} ${dataType === 'free' ? 'rounded-l-lg' : dataType === 'archetype' ? 'rounded-r-lg' : ''}`}>
             <span className="text-center text-slate-900">{dataType.charAt(0).toUpperCase() + dataType.slice(1)}</span>
             <div className="flex flex-wrap justify-center gap-2">
-                {data.map((type, k) => (
-                    <Tooltip key={k} content={(
+                { data.map((type, k) =>
+                    <Tooltip key={k} content={
                         <div className="flex flex-col">
                             <span>Name: <span className="text-red-500">{type.name}</span></span>
                             <span>
@@ -30,7 +30,7 @@ export function Icons (
                             )}
                             </span>
                         </div>
-                    )}>
+                    }>
                         <Checkbox className="hidden" checked={type.selected} id={`${dataType}_class_${type.alias}`}
                                   onChange={e => setChange(e, dataType, k)}
                         />
@@ -40,7 +40,7 @@ export function Icons (
                             {displayNames ? <small>{type.name}</small> : null}
                         </Label>
                     </Tooltip>
-                ))}
+                ) }
             </div>
         </div>
     );
@@ -95,9 +95,9 @@ export default function Classes({classes, editClasses, displayNames}: {
             </div>
 
             <div className="flex">
-                { classes.free.length ? <Icons data={classes.free} dataType="free" displayNames={displayNames} setChange={toggle} color="bg-blue-500"></Icons> : null }
-                { classes.premium.length ? <Icons data={classes.premium} dataType="premium" displayNames={displayNames} setChange={toggle} color="bg-red-700"></Icons> : null }
-                { classes.archetype.length ? <Icons data={classes.archetype} dataType="archetype" displayNames={displayNames} setChange={toggle} color="bg-yellow-500"></Icons> : null }
+                { classes.free ? <Icons data={classes.free} dataType="free" displayNames={displayNames} setChange={toggle} color="bg-blue-500" /> : null }
+                { classes.premium ? <Icons data={classes.premium} dataType="premium" displayNames={displayNames} setChange={toggle} color="bg-red-700" /> : null }
+                { classes.archetype ? <Icons data={classes.archetype} dataType="archetype" displayNames={displayNames} setChange={toggle} color="bg-yellow-500" /> : null }
             </div>
         </div>
     );

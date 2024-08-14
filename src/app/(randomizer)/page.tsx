@@ -35,14 +35,14 @@ export default function Randomizer() {
                 DDO Class Randomizer
             </h1>
 
-            <UpdateNotes/>
+            <UpdateNotes />
 
             <div className="flex flex-col gap-5">
                 <Options displayNames={displayNames} editDisplay={setDisplayNames} />
 
-                {races ? <Races races={races} editRaces={setRaces} displayNames={displayNames}/> : <Loading name="races" />}
+                {races ? <Races races={races} editRaces={setRaces} displayNames={displayNames} /> : <Loading name="races" />}
 
-                {classes ? <Classes classes={classes} editClasses={setClasses} displayNames={displayNames}/> : <Loading name="classes" />}
+                {classes ? <Classes classes={classes} editClasses={setClasses} displayNames={displayNames} /> : <Loading name="classes" />}
 
                 {alignments ? <Alignments alignments={alignments} editAlignments={setAlignments} /> : <Loading name="alignments" />}
 

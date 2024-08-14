@@ -3,14 +3,13 @@ import {Checkbox, Label, Tooltip} from "flowbite-react";
 import type {Race, Races, Stat} from "@/types/races";
 import {isSelected} from "@/utils";
 
-export function Icons (
-    { data, dataType, color, displayNames, setChange } : { data : Race[], dataType: string, color: string, displayNames: boolean, setChange: (e: ChangeEvent<HTMLInputElement>, type?: string, k?: number) => void }) {
+export function Icons({ data, dataType, color, displayNames, setChange } : { data : Race[], dataType: string, color: string, displayNames: boolean, setChange: (e: ChangeEvent<HTMLInputElement>, type?: string, k?: number) => void }) {
     return (
         <div className={`flex flex-col gap-2 p-2 grow ${color} ${dataType === 'free' ? 'rounded-l-lg' : dataType === 'iconic' ? 'rounded-r-lg' : ''}`}>
             <span className="text-center text-slate-900">{dataType.charAt(0).toUpperCase() + dataType.slice(1)}</span>
             <div className="flex flex-wrap justify-center gap-2">
-                {data.map((type, k) => (
-                    <Tooltip key={k} content={(
+                { data.map((type, k) =>
+                    <Tooltip key={k} content={
                         <div className="flex flex-col">
                             <span>Name: <span className="text-blue-500">{type.name}</span></span>
                             {type.statsMod ?
@@ -33,7 +32,7 @@ export function Icons (
                                 </span>
                              : null}
                         </div>
-                    )}>
+                    }>
                         <Checkbox className="hidden" checked={type.selected} id={`${dataType}_race_${type.alias}`}
                                   onChange={e => setChange(e, dataType, k)}
                         />
@@ -45,7 +44,7 @@ export function Icons (
                             {displayNames ? <small>{type.name}</small> : null}
                         </Label>
                     </Tooltip>
-                ))}
+                ) }
             </div>
         </div>
     );
@@ -101,9 +100,9 @@ export default function Races({races, editRaces, displayNames}: {
             </div>
 
             <div className="flex">
-                { races.free.length ? <Icons data={races.free} dataType="free" displayNames={displayNames} setChange={toggle} color="bg-blue-500"></Icons> : null }
-                { races.premium.length ? <Icons data={races.premium} dataType="premium" displayNames={displayNames} setChange={toggle} color="bg-red-700"></Icons> : null }
-                { races.iconic.length ? <Icons data={races.iconic} dataType="iconic" displayNames={displayNames} setChange={toggle} color="bg-yellow-500"></Icons> : null }
+                { races.free ? <Icons data={races.free} dataType="free" displayNames={displayNames} setChange={toggle} color="bg-blue-500" /> : null }
+                { races.premium ? <Icons data={races.premium} dataType="premium" displayNames={displayNames} setChange={toggle} color="bg-red-700" /> : null }
+                { races.iconic ? <Icons data={races.iconic} dataType="iconic" displayNames={displayNames} setChange={toggle} color="bg-yellow-500" /> : null }
             </div>
         </div>
     );
