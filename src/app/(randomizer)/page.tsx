@@ -41,7 +41,7 @@ export default function Randomizer() {
             fetch(`/api/destiny_trees`, {cache: 'no-store'}).then(r => r.json()).then(r => setDestinyTrees(r)),
         ])
             .then(() => setisDataLoaded(true));
-    }, [] );
+    }, []);
 
     return (
         <div className="md:container px-2 mb-5 mx-auto">
@@ -66,7 +66,8 @@ export default function Randomizer() {
 
                 {destinyTrees ? <DestinyTrees destinyTrees={destinyTrees} editDestinyTrees={setDestinyTrees} /> : <Loading name="destiny trees" />}
 
-                <RandomizerOptions></RandomizerOptions>
+                {destinyTrees ? <RandomizerOptions destinyTreesSelectedLength={destinyTrees.filter((dT: DestinyTreeType) => dT.isBought).length} /> : <Loading name="randomizer options" />}
+
 
                 <Button.Group className="rounded-lg justify-center shadow-none">
                     <Button outline color="cyan" disabled={ !isDataLoaded }>Randomize !</Button>
