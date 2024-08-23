@@ -1,7 +1,6 @@
 import {ChangeEvent, Dispatch} from "react";
 import {Checkbox, Label} from "flowbite-react";
-import type {DestinyTree} from "@/types/destiny_trees";
-import {isSelected} from "@/utils";
+import type {DestinyTree} from "@/types/destiny_trees";import {isSelected} from "@/utils";
 
 export function Options({ data, setChange } : { data : DestinyTree[], setChange: (e: ChangeEvent<HTMLInputElement>, k?: number) => void }) {
     return (
@@ -42,14 +41,6 @@ export default function DestinyTrees({destinyTrees, editDestinyTrees}: {
     return (
         <div className="flex flex-col justify-center gap-2">
             <span className="text-teal-500 dark:text-cyan-300">Destiny Trees Unlocked</span>
-            {/*<div className="flex flex-wrap gap-3">
-                <div className="flex items-center gap-2">
-                    <Checkbox id="all_destiny_trees"
-                              checked={isSelected<DestinyTree>(destinyTrees.filter(dt => !dt.core))}
-                              onChange={e => toggle(e)}/>
-                    <Label htmlFor="all_destiny_trees">Select all</Label>
-                </div>
-            </div>*/}
 
             <div className="flex">
                 <Options data={destinyTrees} setChange={toggle} />
