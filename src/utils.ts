@@ -2,7 +2,7 @@
 export function isSelected<T extends {selected?: boolean; isBought?: boolean}>(data: T[]): boolean {
     const copiedData : Array<T> = JSON.parse(JSON.stringify(data))
 
-    return copiedData.filter((c: T) => c.selected || c.isBought).length === data.length
+    return copiedData.filter((c: T) => c.selected || c.isBought || false).length === data.length
 }
 
 export function filterCategory<T extends {category: string}>(data: T[], category: string): Array<T> {

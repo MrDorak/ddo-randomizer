@@ -1,6 +1,7 @@
 import {ChangeEvent, useMemo, useState} from "react";
 import {Checkbox, Label, Radio, TextInput, Tooltip} from "flowbite-react";
 import {HiExclamationCircle} from "react-icons/hi";
+import type {UniversalTree} from "@/types/universal_trees";
 
 let minRacialPoints = 0;
 let maxRacialPoints = 14;
@@ -19,6 +20,14 @@ export default function Options({ destinyTreesSelectedLength = 0 } : { destinyTr
     const [destinyTier5, setDestinyTier5] = useState<string>("without_tier5");
     const [destinyPoints, setDestinyPoints] = useState<number>(minDestinyPoints);
 
+    const [numberAllowedClass, setNumberAllowedClass]  = useState<{ [key: number]: boolean }>({
+        1: true,
+        2: true,
+        3: true,
+    });
+
+    const [weight, setWeight] = useState<string>("no_weight");
+
     useMemo(() => {
         minDestinyPoints = 68 + destinyTreesSelectedLength
         maxDestinyPoints = 82 + destinyTreesSelectedLength
@@ -29,14 +38,6 @@ export default function Options({ destinyTreesSelectedLength = 0 } : { destinyTr
             setDestinyPoints(maxDestinyPoints)
         }
     }, [destinyPoints, destinyTreesSelectedLength])
-
-    const handleCapstoneChange = (e : ChangeEvent<HTMLInputElement>) => {
-        setCapstoneTree(e.target.value)
-    }
-
-    const handleDestinyTier5Change = (e : ChangeEvent<HTMLInputElement>) => {
-        setDestinyTier5(e.target.value)
-    }
 
     const handleRacialPointsChange = (e : ChangeEvent<HTMLInputElement>) => {
         if (e.target.value === '') {
@@ -64,12 +65,13 @@ export default function Options({ destinyTreesSelectedLength = 0 } : { destinyTr
 
     return (
         <div className="flex flex-col gap-2">
-            <span className="text-cyan-500">Randomizer options</span>
+            <span className="text-teal-500 dark:text-cyan-300">Randomizer Options</span>
 
-            <div
-                className="flex flex-col gap-3 p-3 rounded-lg text-gray-900 bg-gray-100 dark:bg-gray-700 dark:text-white">
+            <div className="flex flex-col gap-3 p-3 rounded-lg text-gray-900 bg-gray-100 dark:bg-gray-700 dark:text-white">
                 <div className="flex flex-wrap items-center">
-                    <span>Enhancement Trees :</span>
+                    <div className="w-40">
+                        <span>Enhancement Trees :</span>
+                    </div>
                     <div className="flex flex-wrap flex-col grow gap-2">
                         <div className="flex flex-wrap justify-center">
                             <div className="flex items-center">
@@ -93,7 +95,7 @@ export default function Options({ destinyTreesSelectedLength = 0 } : { destinyTr
                                         <Radio id="no_capstone"
                                                value="no_capstone"
                                                checked={capstoneTree === 'no_capstone'}
-                                               onChange={handleCapstoneChange}
+                                               onChange={(e : ChangeEvent<HTMLInputElement>) => setCapstoneTree(e.target.value)}
                                                name="capstone"
                                                className="h-4 w-4 border border-gray-300 text-orange-500 dark:ring-offset-gray-700 focus:ring-2 focus:ring-orange-500 dark:border-gray-500 dark:bg-gray-700 dark:focus:bg-orange-500 dark:focus:ring-orange-500 "
                                         />
@@ -103,7 +105,7 @@ export default function Options({ destinyTreesSelectedLength = 0 } : { destinyTr
                                         <Radio id="class_capstone"
                                                value="class_capstone"
                                                checked={capstoneTree === 'class_capstone'}
-                                               onChange={handleCapstoneChange}
+                                               onChange={(e : ChangeEvent<HTMLInputElement>) => setCapstoneTree(e.target.value)}
                                                name="capstone"
                                                className="h-4 w-4 border border-gray-300 text-orange-500 dark:ring-offset-gray-700 focus:ring-2 focus:ring-orange-500 dark:border-gray-500 dark:bg-gray-700 dark:focus:bg-orange-500 dark:focus:ring-orange-500 "
                                         />
@@ -117,7 +119,7 @@ export default function Options({ destinyTreesSelectedLength = 0 } : { destinyTr
                                         <Radio id="universal_capstone"
                                                value="universal_capstone"
                                                checked={capstoneTree === 'universal_capstone'}
-                                               onChange={handleCapstoneChange}
+                                               onChange={(e : ChangeEvent<HTMLInputElement>) => setCapstoneTree(e.target.value)}
                                                name="capstone"
                                                className="h-4 w-4 border border-gray-300 text-orange-500 dark:ring-offset-gray-700 focus:ring-2 focus:ring-orange-500 dark:border-gray-500 dark:bg-gray-700 dark:focus:bg-orange-500 dark:focus:ring-orange-500 "
                                         />
@@ -151,16 +153,17 @@ export default function Options({ destinyTreesSelectedLength = 0 } : { destinyTr
                 <hr/>
 
                 <div className="flex flex-wrap items-center">
-                    <span>Destiny Trees :</span>
+                    <div className="w-40">
+                        <span>Destiny Trees :</span>
+                    </div>
                     <div className="flex flex-wrap flex-col grow gap-2">
                         <div className="flex flex-wrap justify-center">
                             <div className="flex items-center">
-                                <Label htmlFor="randomize-enhancement-trees-checkbox"
-                                       className="flex items-center gap-2">
+                                <Label htmlFor="randomize-destiny-trees-checkbox" className="flex items-center gap-2">
                                     <Checkbox
                                         className="w-4 h-4 rounded bg-gray-300 dark:bg-gray-600 text-orange-500 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:border-gray-500"
                                         checked={randomizeDestinyTrees}
-                                        id="randomize-enhancement-trees-checkbox"
+                                        id="randomize-destiny-trees-checkbox"
                                         onChange={() => setRandomizeDestinyTrees(!randomizeDestinyTrees)}
                                     />
                                     Randomize destiny trees
@@ -175,7 +178,7 @@ export default function Options({ destinyTreesSelectedLength = 0 } : { destinyTr
                                         <Radio id="without_tier5"
                                                value="without_tier5"
                                                checked={destinyTier5 === 'without_tier5'}
-                                               onChange={handleDestinyTier5Change}
+                                               onChange={(e : ChangeEvent<HTMLInputElement>) => setDestinyTier5(e.target.value)}
                                                name="destiny_tier5"
                                                className="h-4 w-4 border border-gray-300 text-orange-500 dark:ring-offset-gray-700 focus:ring-2 focus:ring-orange-500 dark:border-gray-500 dark:bg-gray-700 dark:focus:bg-orange-500 dark:focus:ring-orange-500 "
                                         />
@@ -185,7 +188,7 @@ export default function Options({ destinyTreesSelectedLength = 0 } : { destinyTr
                                         <Radio id="with_tier5"
                                                value="with_tier5"
                                                checked={destinyTier5 === 'with_tier5'}
-                                               onChange={handleDestinyTier5Change}
+                                               onChange={(e : ChangeEvent<HTMLInputElement>) => setDestinyTier5(e.target.value)}
                                                name="destiny_tier5"
                                                className="h-4 w-4 border border-gray-300 text-orange-500 dark:ring-offset-gray-700 focus:ring-2 focus:ring-orange-500 dark:border-gray-500 dark:bg-gray-700 dark:focus:bg-orange-500 dark:focus:ring-orange-500 "
                                         />
@@ -208,6 +211,71 @@ export default function Options({ destinyTreesSelectedLength = 0 } : { destinyTr
                                 </Label>
                             </div>
                         ) : null}
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div className="flex flex-wrap items-center">
+                    <div className="w-40">
+                        <span>Number of multiclass :</span>
+                    </div>
+                    <div className="flex flex-wrap flex-col grow gap-2">
+                        <div className="flex flex-wrap justify-center gap-3 p-3 grow rounded-lg ">
+                            { Object.keys(numberAllowedClass).map((option: string, k: number) =>
+                                <Label key={k} htmlFor={`class_${k}`} className="flex items-center gap-2">
+                                    <Checkbox
+                                        className="w-4 h-4 rounded bg-gray-300 dark:bg-gray-600 text-orange-500 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:border-gray-500"
+                                        checked={numberAllowedClass[+option]}
+                                        id={`class_${k}`}
+                                        onChange={(e : ChangeEvent<HTMLInputElement>) => setNumberAllowedClass({...numberAllowedClass, [+option]: e.target.checked})}
+                                    />
+                                    { option } {+option > 1 ? 'classes' : 'class'}
+                                </Label>
+                            ) }
+                        </div>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div className="flex flex-wrap items-center">
+                    <div className="w-40">
+                        <span>Ability score weight :</span>
+                    </div>
+                    <div className="flex flex-wrap flex-col grow gap-2">
+                        <div className="flex flex-wrap justify-center gap-3 p-3 grow rounded-lg ">
+                            <Label htmlFor="no_weight" className="flex items-center gap-2">
+                                <Radio id="no_weight"
+                                       value="no_weight"
+                                       checked={weight === 'no_weight'}
+                                       onChange={(e : ChangeEvent<HTMLInputElement>) => setWeight(e.target.value)}
+                                       name="weight"
+                                       className="h-4 w-4 border border-gray-300 text-orange-500 dark:ring-offset-gray-700 focus:ring-2 focus:ring-orange-500 dark:border-gray-500 dark:bg-gray-700 dark:focus:bg-orange-500 dark:focus:ring-orange-500 "
+                                />
+                                Don't apply weight, let there be chaos
+                            </Label>
+                            <Label htmlFor="weight_main" className="flex items-center gap-2">
+                                <Radio id="weight_main"
+                                       value="weight_main"
+                                       checked={weight === 'weight_main'}
+                                       onChange={(e : ChangeEvent<HTMLInputElement>) => setWeight(e.target.value)}
+                                       name="weight"
+                                       className="h-4 w-4 border border-gray-300 text-orange-500 dark:ring-offset-gray-700 focus:ring-2 focus:ring-orange-500 dark:border-gray-500 dark:bg-gray-700 dark:focus:bg-orange-500 dark:focus:ring-orange-500 "
+                                />
+                                Apply stat weight based off the main class
+                            </Label>
+                            <Label htmlFor="weight_all" className="flex items-center gap-2">
+                                <Radio id="weight_all"
+                                       value="weight_all"
+                                       checked={weight === 'weight_all'}
+                                       onChange={(e : ChangeEvent<HTMLInputElement>) => setWeight(e.target.value)}
+                                       name="weight"
+                                       className="h-4 w-4 border border-gray-300 text-orange-500 dark:ring-offset-gray-700 focus:ring-2 focus:ring-orange-500 dark:border-gray-500 dark:bg-gray-700 dark:focus:bg-orange-500 dark:focus:ring-orange-500 "
+                                />
+                                Apply stat weight based off all the classes selected
+                            </Label>
+                        </div>
                     </div>
                 </div>
             </div>
